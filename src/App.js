@@ -3,7 +3,14 @@ import { useFetch } from "./useFetch";
 import Follower from "./Follower";
 function App() {
   const { loading, data } = useFetch();
-  console.log(data);
+  const [pages, setPages] = useState(0);
+  const [follower, setFollower] = useState([]);
+
+  useEffect(() => {
+    if (loading) return;
+    setFollower(data[pages]);
+  }, [loading]);
+
   return (
     <main>
       <div className="section-title">
@@ -12,7 +19,7 @@ function App() {
       </div>
       <section className="followers">
         <div className="container">
-          {data.map((follower) => {
+          {follower.map((follower) => {
             return <Follower key={follower.id} {...follower} />;
           })}
         </div>
